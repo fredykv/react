@@ -18,6 +18,7 @@ class App extends Component {
           <div className="col-4 text-center border border-primary ">
             <h1 className="mt-4">Bienvenido</h1>
             <h4 className="mb-2">ingresa tus tareas</h4>
+            {hola1}
             <form onSubmit="">
               <input
                 type="text"
