@@ -1,32 +1,60 @@
 import React, { Component } from "react";
 import "./App.css";
+import Input from "./componentes/Inputs";
+import Mode from "./componentes/Mode";
 
 class App extends Component {
-  state={
-    task:'',
-    tasks:[]
-  }
-  onChange=(e) => {
-    this.setState({task: e.target.value})
-    console.log(e.target.value);        
-  }
+  state = {
+    task: "",
+    tasks: [],
+    mode: { mod: "Dark", clasName: "btn btn-dark" },
+  };
+  changeMode = (mode) => {
+    if (mode === "Dark") {
+      const light = { mod: "Light", clasName: "btn btn-light" };
+      this.setState({ mode: light });
+      
+    } else {
+      const dark = { mod: "Dark", clasName: "btn btn-dark" };
+      this.setState({ mode: dark });
+    }
+  };
+  onChange = (e) => {
+    this.setState({ task: e.target.value });
+  };
+  onSubmit = (e) => {
+    this.state.tasks.push({ titulo: this.state.task });
+    this.setState({ task: "" });
+    e.preventDefault();
+  };
+  delete = (id) => {
+    const inputsFiltrados = this.state.tasks.filter((e, i) => i !== id);
+    this.setState({ tasks: inputsFiltrados });
+  };
   render() {
+    const inputFijos = this.state.tasks.map((n, i) => (
+      <Input titulo={n.titulo} key={i} id={i} delete={this.delete} />
+    ));
+
     return (
       <div className="container ">
         <div className="row pt-5 ">
-          <div className="col-4"></div>
+          <div className="col-4">
+            <Mode mode={this.state.mode} changeMode={this.changeMode} />
+          </div>
           <div className="col-4 text-center border border-primary ">
             <h1 className="mt-4">Bienvenido</h1>
             <h4 className="mb-2">ingresa tus tareas</h4>
-            {hola1}
-            <form onSubmit="">
+            <form onSubmit={this.onSubmit}>
               <input
                 type="text"
                 placeholder="escriba una tarea"
                 className="px-3 mb-2 py-1 text-center"
+                value={this.state.task}
                 onChange={this.onChange}
               />
             </form>
+            {inputFijos}
           </div>
           <div className="col-4"></div>
         </div>
