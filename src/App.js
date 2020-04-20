@@ -45,6 +45,13 @@ class App extends Component {
     const inputsFiltrados = this.state.tasks.filter((e, i) => i !== id);
     this.setState({ tasks: inputsFiltrados });
   };
+  componentDidMount(){
+    const statecached =JSON.parse(localStorage.getItem('state'))||[];
+    this.setState(statecached)
+  }
+  componentDidUpdate(){
+    localStorage.setItem('state',JSON.stringify(this.state))
+  }
   render() {
     const inputFijos = this.state.tasks.map((n, i) => (
       <Input
